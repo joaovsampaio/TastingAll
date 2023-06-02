@@ -4,7 +4,7 @@ import Link from "next/link";
 
 function Footer() {
   return (
-    <footer className="flex items-center justify-between bg-foreground/5 py-5 px-10 mt-auto">
+    <footer className="flex items-center justify-between bg-foreground/5 py-5 px-10 mt-auto max-md:flex-col max-md:gap-5">
       <Image
         alt="TastingAll"
         src="/../public/logo.png"
