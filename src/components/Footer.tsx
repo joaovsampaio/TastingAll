@@ -12,7 +12,11 @@ function Footer() {
         height={50}
       />
       <span>Copyright © 2023 - All right reserved</span>
-      <Link href="https://github.com/joaovsampaio" target="_blank">
+      <Link
+        className="hover:bg-background rounded-full p-5"
+        href="https://github.com/joaovsampaio"
+        target="_blank"
+      >
         <Github />
       </Link>
     </footer>
