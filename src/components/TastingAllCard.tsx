@@ -29,7 +29,8 @@ function TastingAllCard() {
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugiat
             minima
           </CardDescription>
-          <div className="text-xs text-foreground/60 dark:text-foreground/20 self-end">
+          <div className="flex justify-between items-center text-xs text-foreground/60 dark:text-foreground/20">
+            <span>Massa</span>
             <time className="pr-1">00/00/00</time>
             <time>00:00</time>
           </div>
