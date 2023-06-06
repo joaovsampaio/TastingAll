@@ -9,33 +9,41 @@ import { Input, InputText, Label, Textarea } from "../ui/formUIComps";
 import SelectCategory from "./SelectCategory";
 import { useState } from "react";
 import Image from "next/image";
+import { supabase } from "@/lib/supabaseClient";
+import IngredientsInput from "./IngredientsInput";
 
+// Supabase Rules
+const MB_BYTES = 5242880;
+const ACCEPTED_MIME_TYPES = [
+  "image/jpeg",
+  "image/jpg",
+  "image/png",
+  "image/webp",
+];
 const schema = z.object({
-  title: z
-    .string()
-    .min(1, { message: "É necessário um título." })
-    .max(30, { message: "O máximo são 15 caracteres." }),
-  image: z
-    .any()
-    .refine((file) => file?.size === 0, "Você deve prover uma imagem.")
-    .refine((file) => file?.size <= 500000, "O tamanho máximo é 5MB.")
-    .refine(
-      (file) =>
-        ["image/jpeg", "image/jpg", "image/png", "image/webp"].includes(
-          file?.type
-        ),
-      "Apenas os formatos .jpg, .jpeg, .png e .webp são suportados."
-    ),
-  category: z.string({
-    required_error: "É necessário escolher uma categoria.",
-  }),
-  description: z
-    .string()
-    .min(1, { message: "É nececessário um modo de preparo." }),
-  /*ingredients: z
-    .string()
+  // Title: z
+  //   .string()
+  //   .min(1, { message: "É necessário um título." })
+  //   .max(30, { message: "O máximo são 15 caracteres." }),
+  ingredients: z
+    .string({ required_error: "O campo deve ser preenchido." })
     .array()
-    .nonempty({ message: "É necessário ao menos um ingrediente." }),*/
+    .nonempty({ message: "É necessário ao menos um ingrediente." }),
+  // description: z
+  //   .string()
+  //   .min(1, { message: "É nececessário um modo de preparo." }),
+  // category: z.string({
+  //   required_error: "É necessário escolher uma categoria.",
+  // }),
+  // image: z
+  //   .any()
+  //   .refine((file) => file.length !== 0, "Você deve prover uma imagem.")
+  //   .refine((file) => file[0]?.size <= MB_BYTES, "O tamanho máximo é 5MB.")
+  //   .refine(
+  //     (file) => ACCEPTED_MIME_TYPES.includes(file[0]?.type),
+  //     "Apenas os formatos .jpg, .jpeg, .png e .webp são suportados."
+  //   ),
+
   /*date: z.string().default(
     Intl.DateTimeFormat("pt-BR", {
       dateStyle: "short",
@@ -52,15 +60,28 @@ function Form() {
     setValue,
     clearErrors,
     control,
+    watch,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
+  const [image, setImage] = useState("");
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    try {
-      console.log(data.image);
-    } catch (e) {
-      console.log(e);
+    console.log(data);
+    /*const { data: file, error } = await supabase.storage
+      .from("tastingall-bucket/recipes")
+      .upload(data.image[0].name, data.image[0], { upsert: true });
+
+    if (file) {
+      const supabaseURL = supabase.storage
+        .from("tastingall-bucket/recipes")
+        .getPublicUrl(file?.path);
+
+      const updatedData = { ...data, image: supabaseURL.data.publicUrl };
+
+      console.log(updatedData);
     }
+
+    if (error) return console.log(error);*/
   };
 
   return (
@@ -69,7 +90,7 @@ function Form() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col justify-center gap-5"
       >
-        <div>
+        {/* <div>
           <Label htmlFor="title">Nome:</Label>
           <Input
             {...register("title")}
@@ -96,21 +117,28 @@ function Form() {
               ? errors.description?.message
               : "Expique o passo a passo da sua receita."}
           </InputText>
-        </div>
-
+        </div> */}
         <div>
+          <Controller
+            control={control}
+            name="ingredients"
+            render={({ field, fieldState: { error } }) => (
+              <IngredientsInput errors={error} />
+            )}
+          />
+        </div>
+        {/* <div>
           <Label htmlFor="image">Imagem:</Label>
           <Input
             className="h-auto"
             {...register("image")}
             type="file"
             id="image"
-            placeholder="imagem"
           />
           <InputText error={errors.image ? true : false}>
             {errors.image
               ? (errors.image?.message as any)
-              : "Escolha uma imagem."}
+              : "máximo de 5MB. formatos: jpeg, jpg, png,webp."}
           </InputText>
         </div>
 
@@ -122,8 +150,7 @@ function Form() {
               <SelectCategory onChange={field.onChange} errors={error} />
             )}
           />
-        </div>
-
+        </div> */}
         <Button type="submit">Publicar</Button>
       </form>
     </>
