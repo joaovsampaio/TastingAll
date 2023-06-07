@@ -7,6 +7,7 @@ import { Balancer } from "react-wrap-balancer";
 import Image from "next/image";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
+import Form from "./Form/Form";
 
 const inter = Inter({ subsets: ["latin"], weight: "900" });
 
@@ -42,6 +43,7 @@ const textAnim = {
 function Hero() {
   const [animStart, setAnimStart] = useState(false);
 
+  const [teste, setTeste] = useState(false);
   return (
     <div className="bg-hero">
       {!animStart && (
@@ -93,20 +95,32 @@ function Hero() {
           orientation="vertical"
           aria-hidden
         />
-        <div className="flex flex-col items-center justify-center flex-1 text-center text-xl font-light">
-          <h3>
-            <Balancer>
-              Aqui você compartilha suas receitas e descobre novos sabores.
-            </Balancer>
-          </h3>
+        <div
+          className={
+            "flex flex-col items-center justify-center flex-1 text-center text-xl font-light"
+          }
+        >
+          {teste ? (
+            <div className="text-start p-2 rounded-md shadow-lg max-lg:mx-2 backdrop-saturate-150 backdrop-blur-lg">
+              <Form />
+            </div>
+          ) : (
+            <>
+              <h3>
+                <Balancer>
+                  Aqui você compartilha suas receitas e descobre novos sabores.
+                </Balancer>
+              </h3>
 
-          <p className="my-2">
-            Venha fazer parte de uma comunidade amante da culinária:
-          </p>
-          <div className="flex items-center gap-5">
-            <Button>Registrar</Button>
-            <Button variant="outline">Entrar</Button>
-          </div>
+              <p className="my-2">
+                Venha fazer parte de uma comunidade amante da culinária:
+              </p>
+              <div className="flex items-center gap-5">
+                <Button>Registrar</Button>
+                <Button variant="outline">Entrar</Button>
+              </div>
+            </>
+          )}
         </div>
       </motion.div>
     </div>

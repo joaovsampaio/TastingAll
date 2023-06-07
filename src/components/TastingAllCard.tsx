@@ -21,9 +21,7 @@ function TastingAllCard() {
               height={50}
               className="rounded-full"
             />
-            <CardTitle className="text-primary overflow-hidden">
-              Teste
-            </CardTitle>
+            <CardTitle className="overflow-hidden">Teste</CardTitle>
           </div>
           <CardDescription className="text-base truncate pt-2">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Fugiat
@@ -31,8 +29,10 @@ function TastingAllCard() {
           </CardDescription>
           <div className="flex justify-between items-center text-xs text-foreground/60 dark:text-foreground/20">
             <span>Massa</span>
-            <time className="pr-1">00/00/00</time>
-            <time>00:00</time>
+            <div>
+              <time className="pr-1">00/00/00</time>
+              <time>00:00</time>
+            </div>
           </div>
         </CardHeader>
         <CardContent className="relative object-contain aspect-square border-t-2">

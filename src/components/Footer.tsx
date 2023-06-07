@@ -17,7 +17,7 @@ function Footer() {
         href="https://github.com/joaovsampaio"
         target="_blank"
       >
-        <Github />
+        <Github aria-label="github" />
       </Link>
     </footer>
   );

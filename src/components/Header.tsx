@@ -12,20 +12,19 @@ import {
 import { Sun, Moon } from "lucide-react";
 
 import { storageTheme } from "@/lib/storageTheme";
+import { cn } from "@/lib/utils";
 import { Switch } from "./ui/switch";
 
 function Header() {
   const [darkMode, setDarkMode] = useState(false);
-  const [headerBlur, setHeaderBlur] = useState("blur(0px)");
+  const [headerBlur, setHeaderBlur] = useState(false);
 
   const sunAnim = useAnimation();
   const moonAnim = useAnimation();
   const { scrollY } = useScroll();
 
   useMotionValueEvent(scrollY, "change", (latest: number) => {
-    latest >= 200
-      ? setHeaderBlur("saturate(180%) blur(5px)")
-      : setHeaderBlur("blur(0px)");
+    latest >= 200 ? setHeaderBlur(true) : setHeaderBlur(false);
   });
 
   useEffect(() => {
@@ -46,8 +45,10 @@ function Header() {
 
   return (
     <header
-      style={{ backdropFilter: headerBlur }}
-      className="fixed flex w-full justify-between items-center z-10 px-5 py-2 duration-500 ease-in-out"
+      className={cn(
+        "fixed flex w-full justify-between items-center z-10 px-5 py-2 duration-500 ease-in-out",
+        headerBlur && "backdrop-saturate-150 backdrop-blur-md"
+      )}
     >
       <Link href="/" className="flex items-center gap-1">
         <Image
@@ -83,6 +84,8 @@ function Header() {
           className="toggle bg-primary border-primary"
           onCheckedChange={() => toggleTheme()}
           checked={darkMode ? true : false}
+          aria-label="trocar tema"
+          type="button"
         />
         <motion.div
           initial={{ y: 0 }}
