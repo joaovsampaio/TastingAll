@@ -10,8 +10,8 @@ import {
 
 function TastingAllCard() {
   return (
-    <Link href="/">
-      <Card className="w-[380px] max-md:w-11/12 overflow-hidden">
+    <Link href="/" className="w-[380px] max-md:w-11/12 overflow-hidden">
+      <Card>
         <CardHeader>
           <div className="flex items-center gap-3">
             <Image

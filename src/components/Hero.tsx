@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { Inter } from "next/font/google";
-import { Balancer } from "react-wrap-balancer";
 import Image from "next/image";
+import { Inter } from "next/font/google";
+import { AnimatePresence, motion } from "framer-motion";
+import { Balancer } from "react-wrap-balancer";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
+
 import Form from "./Form/Form";
 
 const inter = Inter({ subsets: ["latin"], weight: "900" });
@@ -24,10 +25,26 @@ const heroContent = {
   },
 };
 
-const textAnim = {
+const textSlogan = {
   hidden: {
     opacity: 0,
     y: 20,
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      ease: "easeIn",
+      type: "just",
+      delay: 0.5,
+    },
+  },
+};
+
+const textSignIn = {
+  hidden: {
+    opacity: 0,
+    y: -20,
   },
   visible: {
     opacity: 1,
@@ -46,15 +63,21 @@ function Hero() {
   const [teste, setTeste] = useState(false);
   return (
     <div className="bg-hero">
-      {!animStart && (
-        <Image
-          alt="TastingAll"
-          src="/../public/logo-name.png"
-          width="500"
-          height="500"
-          className="absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%]"
-        />
-      )}
+      <AnimatePresence>
+        {!animStart && (
+          <motion.div
+            exit={{ opacity: 0 }}
+            className="absolute top-2/4 left-2/4 translate-x-[-50%] translate-y-[-50%]"
+          >
+            <Image
+              alt="TastingAll"
+              src="/../public/logo-name.png"
+              width="500"
+              height="500"
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
       <motion.div
         variants={heroContent}
         initial="hidden"
@@ -63,7 +86,7 @@ function Hero() {
         className="flex max-lg:flex-col justify-between items-center min-h-screen"
       >
         <motion.div
-          variants={textAnim}
+          variants={textSlogan}
           initial="hidden"
           animate="visible"
           className="flex flex-1 flex-col justify-center max-lg:min-h-screen"
@@ -84,11 +107,6 @@ function Hero() {
               />
             </Balancer>
           </h2>
-          <Separator
-            className="lg:hidden"
-            orientation="horizontal"
-            aria-hidden
-          />
         </motion.div>
         <Separator
           className="h-56 max-lg:hidden"
@@ -105,7 +123,11 @@ function Hero() {
               <Form />
             </div>
           ) : (
-            <>
+            <motion.div
+              variants={textSignIn}
+              initial="hidden"
+              animate="visible"
+            >
               <h3>
                 <Balancer>
                   Aqui você compartilha suas receitas e descobre novos sabores.
@@ -115,11 +137,11 @@ function Hero() {
               <p className="my-2">
                 Venha fazer parte de uma comunidade amante da culinária:
               </p>
-              <div className="flex items-center gap-5">
+              <div className="flex items-center justify-center gap-5">
                 <Button>Registrar</Button>
                 <Button variant="outline">Entrar</Button>
               </div>
-            </>
+            </motion.div>
           )}
         </div>
       </motion.div>

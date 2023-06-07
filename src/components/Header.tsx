@@ -46,8 +46,9 @@ function Header() {
   return (
     <header
       className={cn(
-        "fixed flex w-full justify-between items-center z-10 px-5 py-2 duration-500 ease-in-out",
-        headerBlur && "backdrop-saturate-150 backdrop-blur-md"
+        "fixed flex w-full justify-between items-center z-10 px-5 py-2",
+        headerBlur &&
+          "backdrop-saturate-150 backdrop-blur-md duration-500 dark:shadow-slate-800 ease-in-out shadow-sm"
       )}
     >
       <Link href="/" className="flex items-center gap-1">

@@ -59,15 +59,13 @@ function Form() {
     handleSubmit,
     setValue,
     control,
-
     getValues,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
   const [image, setImage] = useState("");
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    console.log(data);
-    /*const { data: file, error } = await supabase.storage
+    const { data: file, error } = await supabase.storage
       .from("tastingall-bucket/recipes")
       .upload(data.image[0].name, data.image[0], { upsert: true });
 
@@ -78,13 +76,15 @@ function Form() {
 
       const updatedData = { ...data, image: supabaseURL.data.publicUrl };
 
-      console.log(updatedData);
+      const postRecipe = await supabase
+        .from("recipes")
+        .insert([{ ...updatedData }]);
+
+      return postRecipe;
     }
 
-    if (error) return console.log(error);*/
+    if (error) return console.log(error);
   };
-
-  console.log(image);
 
   return (
     <>
