@@ -11,6 +11,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { supabase } from "@/lib/supabaseClient";
 import IngredientsInput from "./IngredientsInput";
+import { Loader2 } from "lucide-react";
 
 // Supabase Rules
 const MB_BYTES = 5242880;
@@ -53,37 +54,49 @@ export const schema = z.object({
 });
 export type FormData = z.infer<typeof schema>;
 
-function Form() {
+function FormRecipe() {
   const {
     register,
     handleSubmit,
     setValue,
     control,
-    getValues,
     formState: { errors },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
-  const [image, setImage] = useState("");
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
-    const { data: file, error } = await supabase.storage
+  const [loading, setLoading] = useState(false);
+
+  const postRecipe = async (recipe: FormData) => {
+    const postRecipe = await supabase.from("recipes").insert([{ ...recipe }]);
+    return postRecipe;
+  };
+
+  const storageImage = async (data: FormData) => {
+    const { data: recipeImage, error } = await supabase.storage
       .from("tastingall-bucket/recipes")
       .upload(data.image[0].name, data.image[0], { upsert: true });
 
-    if (file) {
+    if (recipeImage) {
       const supabaseURL = supabase.storage
         .from("tastingall-bucket/recipes")
-        .getPublicUrl(file?.path);
+        .getPublicUrl(recipeImage?.path);
 
       const updatedData = { ...data, image: supabaseURL.data.publicUrl };
 
-      const postRecipe = await supabase
-        .from("recipes")
-        .insert([{ ...updatedData }]);
-
-      return postRecipe;
+      postRecipe(updatedData);
     }
 
     if (error) return console.log(error);
+  };
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      setLoading(true);
+      await storageImage(data);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -138,7 +151,6 @@ function Form() {
             {...register("image")}
             type="file"
             id="image"
-            onChange={(e) => setImage(e.target.files![0].name)}
           />
           <InputText error={errors.image ? true : false}>
             {errors.image
@@ -146,16 +158,6 @@ function Form() {
               : "máximo de 5MB. formatos: jpeg, jpg, png,webp."}
           </InputText>
         </div>
-
-        {image && (
-          <Image
-            alt="teste"
-            src={`/${image}`}
-            width={200}
-            height={200}
-            className="self-center"
-          />
-        )}
 
         <div>
           <Controller
@@ -166,10 +168,16 @@ function Form() {
             )}
           />
         </div>
-        <Button type="submit">Publicar</Button>
+        <Button type="submit" disabled={loading}>
+          {!loading ? (
+            "Publicar"
+          ) : (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          )}
+        </Button>
       </form>
     </>
   );
 }
 
-export default Form;
+export default FormRecipe;

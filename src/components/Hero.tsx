@@ -8,7 +8,8 @@ import { Balancer } from "react-wrap-balancer";
 import { Separator } from "./ui/separator";
 import { Button } from "./ui/button";
 
-import Form from "./Form/Form";
+import FormRecipe from "./Forms/FormRecipe";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"], weight: "900" });
 
@@ -113,37 +114,39 @@ function Hero() {
           orientation="vertical"
           aria-hidden
         />
-        <div
-          className={
-            "flex flex-col items-center justify-center flex-1 text-center text-xl font-light"
-          }
-        >
-          {teste ? (
-            <div className="text-start p-2 rounded-md shadow-lg max-lg:mx-2 backdrop-saturate-150 backdrop-blur-lg">
-              <Form />
-            </div>
-          ) : (
-            <motion.div
-              variants={textSignIn}
-              initial="hidden"
-              animate="visible"
-            >
-              <h3>
-                <Balancer>
-                  Aqui você compartilha suas receitas e descobre novos sabores.
-                </Balancer>
-              </h3>
 
-              <p className="my-2">
-                Venha fazer parte de uma comunidade amante da culinária:
-              </p>
+        <motion.div
+          className={
+            "flex flex-1 flex-col items-center justify-center gap-5 text-center text-xl font-light"
+          }
+          variants={textSignIn}
+          initial="hidden"
+          animate="visible"
+        >
+          <h3>
+            <Balancer>
+              Aqui você compartilha suas receitas e descobre novos sabores.
+            </Balancer>
+          </h3>
+
+          {teste ? (
+            <Link href="/">
+              <Button>Nova Receita</Button>
+            </Link>
+          ) : (
+            <>
+              <p>Venha fazer parte de uma comunidade amante da culinária:</p>
               <div className="flex items-center justify-center gap-5">
-                <Button>Registrar</Button>
-                <Button variant="outline">Entrar</Button>
+                <Link href="/auth/register">
+                  <Button>Registrar</Button>
+                </Link>
+                <Link href="/auth/login">
+                  <Button variant="outline">Entrar</Button>
+                </Link>
               </div>
-            </motion.div>
+            </>
           )}
-        </div>
+        </motion.div>
       </motion.div>
     </div>
   );
