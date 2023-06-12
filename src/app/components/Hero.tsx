@@ -5,11 +5,9 @@ import Image from "next/image";
 import { Inter } from "next/font/google";
 import { AnimatePresence, motion } from "framer-motion";
 import { Balancer } from "react-wrap-balancer";
-import { Separator } from "./ui/separator";
-import { Button } from "./ui/button";
 
-import FormRecipe from "./Forms/FormRecipe";
-import Link from "next/link";
+import { Separator } from "./ui/separator";
+import UserCard from "./UserCard";
 
 const inter = Inter({ subsets: ["latin"], weight: "900" });
 
@@ -61,7 +59,6 @@ const textSignIn = {
 function Hero() {
   const [animStart, setAnimStart] = useState(false);
 
-  const [teste, setTeste] = useState(false);
   return (
     <div className="bg-hero">
       <AnimatePresence>
@@ -117,35 +114,19 @@ function Hero() {
 
         <motion.div
           className={
-            "flex flex-1 flex-col items-center justify-center gap-5 text-center text-xl font-light"
+            "flex flex-1 w-full flex-col items-center justify-center gap-5 text-center text-xl font-light"
           }
           variants={textSignIn}
           initial="hidden"
           animate="visible"
         >
-          <h3>
+          <h3 className="max-sm:text-base">
             <Balancer>
               Aqui você compartilha suas receitas e descobre novos sabores.
             </Balancer>
           </h3>
 
-          {teste ? (
-            <Link href="/">
-              <Button>Nova Receita</Button>
-            </Link>
-          ) : (
-            <>
-              <p>Venha fazer parte de uma comunidade amante da culinária:</p>
-              <div className="flex items-center justify-center gap-5">
-                <Link href="/auth/register">
-                  <Button>Registrar</Button>
-                </Link>
-                <Link href="/auth/login">
-                  <Button variant="outline">Entrar</Button>
-                </Link>
-              </div>
-            </>
-          )}
+          <UserCard />
         </motion.div>
       </motion.div>
     </div>

@@ -1,17 +1,18 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-
-import { Button } from "../ui/button";
-import { Input, InputText, Label, Textarea } from "../ui/formUIComps";
-import SelectCategory from "./SelectCategory";
-import { useState } from "react";
-import Image from "next/image";
-import { supabase } from "@/lib/supabaseClient";
-import IngredientsInput from "./IngredientsInput";
 import { Loader2 } from "lucide-react";
+import { z } from "zod";
+import { supabase } from "@/lib/supabaseClient";
+
+import SelectCategory from "./SelectCategory";
+import IngredientsInput from "./IngredientsInput";
+import { Button } from "../../ui/button";
+import { Input, InputText, Label, Textarea } from "../../ui/formUIComps";
+import { useToast } from "@/lib/use-toast";
 
 // Supabase Rules
 const MB_BYTES = 5242880;
@@ -22,6 +23,7 @@ const ACCEPTED_MIME_TYPES = [
   "image/webp",
 ];
 export const schema = z.object({
+  id: z.string().default(uuidv4()),
   title: z
     .string()
     .min(1, { message: "É necessário um título." })
@@ -44,13 +46,7 @@ export const schema = z.object({
       (file) => ACCEPTED_MIME_TYPES.includes(file[0]?.type),
       "Apenas os formatos .jpg, .jpeg, .png e .webp são suportados."
     ),
-
-  /*date: z.string().default(
-    Intl.DateTimeFormat("pt-BR", {
-      dateStyle: "short",
-      timeStyle: "short",
-    }).format(new Date())
-  ),*/
+  created_by: z.string(),
 });
 export type FormData = z.infer<typeof schema>;
 
@@ -64,36 +60,48 @@ function FormRecipe() {
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    const getUser = async () => {
+      const { data: user, error } = await supabase.auth.getUser();
+
+      if (!error) return setValue("created_by", user.user!.id);
+    };
+
+    getUser();
+  }, [setValue]);
 
   const postRecipe = async (recipe: FormData) => {
-    const postRecipe = await supabase.from("recipes").insert([{ ...recipe }]);
-    return postRecipe;
+    await supabase.from("recipes").insert([{ ...recipe }]);
   };
 
   const storageImage = async (data: FormData) => {
-    const { data: recipeImage, error } = await supabase.storage
+    const { data: image, error } = await supabase.storage
       .from("tastingall-bucket/recipes")
-      .upload(data.image[0].name, data.image[0], { upsert: true });
+      .upload(data.id, data.image[0], {
+        upsert: true,
+      });
 
-    if (recipeImage) {
-      const supabaseURL = supabase.storage
-        .from("tastingall-bucket/recipes")
-        .getPublicUrl(recipeImage?.path);
+    const updatedData = { ...data, image: image?.path };
 
-      const updatedData = { ...data, image: supabaseURL.data.publicUrl };
-
-      postRecipe(updatedData);
-    }
-
-    if (error) return console.log(error);
+    if (!error) return postRecipe(updatedData);
   };
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       setLoading(true);
       await storageImage(data);
-    } catch (e) {
-      console.log(e);
+      toast({
+        title: data.title,
+        description: `${data.title} criado com sucesso.`,
+      });
+    } catch {
+      toast({
+        title: "Ops, algo deu errado!",
+        description: "Tente novamente.",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }

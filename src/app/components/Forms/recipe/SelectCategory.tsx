@@ -5,8 +5,8 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select";
-import { InputText, Label } from "../ui/formUIComps";
+} from "../../ui/select";
+import { InputText, Label } from "../../ui/formUIComps";
 
 type Props = {
   errors: any;

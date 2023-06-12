@@ -1,9 +1,9 @@
 "use client";
 
 import { FieldError, UseFormSetValue } from "react-hook-form";
-import { Input, InputText, Label } from "../ui/formUIComps";
+import { Input, InputText, Label } from "../../ui/formUIComps";
 import { FormData, schema } from "./FormRecipe";
-import { Button } from "../ui/button";
+import { Button } from "../../ui/button";
 import { useEffect, useState } from "react";
 import { XCircle } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";

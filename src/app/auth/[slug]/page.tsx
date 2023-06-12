@@ -1,6 +1,13 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Register, Login } from "@/components/Forms/FormUser";
-import Header from "@/components/Header";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/app/components/ui/tabs";
+
+import Header from "@/app/components/Header";
+import SignUp from "@/app/components/Forms/auth/SignUp";
+import SignIn from "@/app/components/Forms/auth/SignIn";
 
 function page({ params }: { params: { slug: string } }) {
   return (
@@ -16,10 +23,10 @@ function page({ params }: { params: { slug: string } }) {
               </TabsList>
             </div>
             <TabsContent value="register">
-              <Register />
+              <SignUp />
             </TabsContent>
             <TabsContent value="login">
-              <Login />
+              <SignIn />
             </TabsContent>
           </Tabs>
         </div>

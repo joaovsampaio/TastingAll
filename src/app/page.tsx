@@ -1,7 +1,6 @@
-import Header from "@/components/Header";
-import Hero from "@/components/Hero";
-import FormRecipe from "@/components/Forms/FormRecipe";
-import TastingAllCard from "@/components/TastingAllCard";
+import Header from "./components/Header";
+import Hero from "./components/Hero";
+import TastingAllCard from "./components/TastingAllCard";
 
 export default function Home() {
   return (
@@ -11,7 +10,6 @@ export default function Home() {
         <Hero />
       </main>
       <div className="flex flex-col justify-center items-center my-5 gap-5">
-        <FormRecipe />
         <TastingAllCard />
         <TastingAllCard />
         <TastingAllCard />
