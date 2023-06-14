@@ -72,7 +72,7 @@ function FormRecipe() {
     getUser();
   }, [setValue]);
 
-  const postRecipe = async (recipe: FormData) => {
+  const postRecipe = async (recipe: any) => {
     await supabase.from("recipes").insert([{ ...recipe }]);
   };
 

@@ -38,7 +38,7 @@ const updateUserSchema = z.object({
   description: z
     .string()
     .min(5, "O mínimo são 5 caracteres.")
-    .max(30, "O máximo são 15 caracteres."),
+    .max(500, "O máximo são 500 caracteres."),
 });
 
 type UpdateUserData = z.infer<typeof updateUserSchema>;

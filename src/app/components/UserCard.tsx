@@ -5,7 +5,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "./ui/card";
@@ -23,7 +22,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import FormRecipe from "./Forms/recipe/FormRecipe";
-import { BookPlus, Settings2 } from "lucide-react";
+import { BookDown, BookPlus, Settings2, UserSquare } from "lucide-react";
 import UpdateUser from "./Forms/auth/UpdateUser";
 import { User } from "@supabase/supabase-js";
 
@@ -42,7 +41,10 @@ function SheetActions({
 }: SheetActionsProps) {
   return (
     <Sheet>
-      <SheetTrigger title={title}>
+      <SheetTrigger
+        title={title}
+        className="hover:bg-primary/20 rounded-full p-2"
+      >
         <Icon className="text-primary" aria-label={title} />
       </SheetTrigger>
       <SheetContent className="overflow-y-auto max-md:w-full">
@@ -98,27 +100,31 @@ function UserCard() {
                 {userData?.user_metadata.userName}
               </CardTitle>
             </div>
-            <CardDescription className="text-left line-clamp-4">
+            <CardDescription className="text-left line-clamp-4 pt-5">
               {userData?.user_metadata.description}
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <p>Card Content</p>
-          </CardContent>
-          <CardFooter className="flex items-center justify-between">
+          <CardContent className="flex items-center justify-between p-6">
             <SheetActions
               title="Nova Receita"
               content={<FormRecipe />}
               Icon={BookPlus}
               description="Compartilhe uma nova receita"
             />
+            <Link
+              className="hover:bg-primary/20 rounded-full p-2"
+              title="Minhas Receitas"
+              href="/recipes"
+            >
+              <BookDown className="text-primary" aria-label="Minhas Receitas" />
+            </Link>
             <SheetActions
               title="Configurações"
               content={<UpdateUser />}
               Icon={Settings2}
               description="Edite as informações do seu perfil"
             />
-          </CardFooter>
+          </CardContent>
         </Card>
       ) : (
         <>
