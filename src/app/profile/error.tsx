@@ -19,7 +19,9 @@ export default function Error({
         </div>
         <div className="flex flex-col justify-center bg-slate-800 p-10 gap-4">
           <h2 className="text-red-600 text-4xl font-bold">Algo deu errado!</h2>
-          <Button variant="destructive">Tente Novamente</Button>
+          <Button variant="destructive" onClick={() => reset()}>
+            Tente Novamente
+          </Button>
         </div>
       </div>
     </div>

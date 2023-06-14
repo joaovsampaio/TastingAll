@@ -1,6 +1,7 @@
+import { Suspense } from "react";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
-import TastingAllCard from "./components/TastingAllCard";
+import FeedRecipes from "./components/FeedRecipes";
 
 export default function Home() {
   return (
@@ -10,9 +11,9 @@ export default function Home() {
         <Hero />
       </main>
       <div className="flex flex-col justify-center items-center my-5 gap-5">
-        {/* <TastingAllCard />
-        <TastingAllCard />
-        <TastingAllCard /> */}
+        <Suspense fallback={<p>Loading..</p>}>
+          <FeedRecipes />
+        </Suspense>
       </div>
     </>
   );

@@ -1,13 +1,18 @@
 import { supabase } from "@/lib/supabaseClient";
-import Header from "../components/Header";
-import TastingAllCard from "../components/TastingAllCard";
+import Header from "../../components/Header";
+import TastingAllCard from "../../components/TastingAllCard";
 import { format, parseISO } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import UserCard from "@/app/components/UserCard";
+import { formatDate } from "@/lib/utils";
 
 export const revalidate = 3600;
 
-async function getRecipes() {
-  const { data, error } = await supabase.from("recipes").select("*");
+async function getRecipes(userId: string) {
+  const { data, error } = await supabase
+    .from("recipes")
+    .select("*")
+    .eq("created_by", userId);
 
   if (error) {
     throw new Error();
@@ -16,16 +21,8 @@ async function getRecipes() {
   return data;
 }
 
-async function Recipes() {
-  const recipes = await getRecipes();
-
-  const formatDate = (createdAt: string) => {
-    const date = format(parseISO(createdAt), "dd/MM/yyyy - HH:mm", {
-      locale: ptBR,
-    });
-
-    return date;
-  };
+async function Recipes({ params }: { params: { userId: string } }) {
+  const recipes = await getRecipes(params.userId);
 
   const getRecipeImage = (image: string) => {
     const recipeImage = supabase.storage
@@ -56,7 +53,14 @@ async function Recipes() {
   return (
     <>
       <Header isFixed />
-      <div className="min-h-screen flex flex-col justify-center items-center">
+      <div className="min-h-screen flex flex-col justify-center items-center gap-5 mt-20 mb-5">
+        <div className="flex justify-center">
+          <UserCard
+            width="w-2/4"
+            profileLink={true}
+            recipesNumber={recipes.length}
+          />
+        </div>
         {recipes.map((item) => (
           <TastingAllCard
             profileImage={getUserImage(item.created_by as string)}

@@ -24,7 +24,7 @@ function TastingAllCard({ ...props }: Props) {
         <CardHeader>
           <div className="flex items-center gap-3">
             <Image
-              alt="Teste"
+              alt=""
               src={props.profileImage}
               width={50}
               height={50}
@@ -41,7 +41,7 @@ function TastingAllCard({ ...props }: Props) {
           </div>
         </CardHeader>
         <CardContent className="relative object-contain aspect-square border-t-2">
-          <Image alt="Teste" src={props.recipeImage} fill />
+          <Image alt={props.recipeTitle} src={props.recipeImage} fill />
         </CardContent>
       </Card>
     </Link>

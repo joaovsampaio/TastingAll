@@ -8,57 +8,25 @@ import {
   CardHeader,
   CardTitle,
 } from "./ui/card";
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "./ui/sheet";
+import { CustomSheet } from "./ui/sheet";
 
 import { supabase } from "@/lib/supabaseClient";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import FormRecipe from "./Forms/recipe/FormRecipe";
-import { BookDown, BookPlus, Settings2, UserSquare } from "lucide-react";
+import { BookPlus, Settings2, UserSquare } from "lucide-react";
 import UpdateUser from "./Forms/auth/UpdateUser";
 import { User } from "@supabase/supabase-js";
+import { cn } from "@/lib/utils";
 
-type SheetActionsProps = {
-  title: string;
-  description?: string;
-  content: React.ReactNode;
-  Icon: React.ElementType;
+type UserCardProps = {
+  width?: string;
+  profileLink?: boolean;
+  recipesNumber?: number;
 };
 
-function SheetActions({
-  title,
-  description,
-  content,
-  Icon,
-}: SheetActionsProps) {
-  return (
-    <Sheet>
-      <SheetTrigger
-        title={title}
-        className="hover:bg-primary/20 rounded-full p-2"
-      >
-        <Icon className="text-primary" aria-label={title} />
-      </SheetTrigger>
-      <SheetContent className="overflow-y-auto max-md:w-full">
-        <SheetHeader>
-          <SheetTitle>{title}</SheetTitle>
-          <SheetDescription className="pb-5">{description}</SheetDescription>
-        </SheetHeader>
-        {content}
-      </SheetContent>
-    </Sheet>
-  );
-}
-
-function UserCard() {
+function UserCard({ width, profileLink, recipesNumber }: UserCardProps) {
   const [userData, setUserData] = useState<User>();
   const [profileImage, setProfileImage] = useState<string | undefined>();
 
@@ -82,7 +50,7 @@ function UserCard() {
   return (
     <>
       {userData ? (
-        <Card className="w-[400px] max-sm:w-11/12">
+        <Card className={cn("w-[400px] max-sm:w-11/12", width)}>
           <CardHeader>
             <div className="flex items-center gap-3">
               <Image
@@ -105,20 +73,25 @@ function UserCard() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex items-center justify-between p-6">
-            <SheetActions
+            {!profileLink ? (
+              <Link
+                className="hover:bg-primary/20 rounded-full p-2"
+                title="Perfil"
+                href={`/profile/${userData.id}`}
+                hidden={profileLink}
+              >
+                <UserSquare className="text-primary" aria-label="Perfil" />
+              </Link>
+            ) : (
+              <p className="text-primary">Receitas: {recipesNumber}</p>
+            )}
+            <CustomSheet
               title="Nova Receita"
               content={<FormRecipe />}
               Icon={BookPlus}
               description="Compartilhe uma nova receita"
             />
-            <Link
-              className="hover:bg-primary/20 rounded-full p-2"
-              title="Minhas Receitas"
-              href="/recipes"
-            >
-              <BookDown className="text-primary" aria-label="Minhas Receitas" />
-            </Link>
-            <SheetActions
+            <CustomSheet
               title="Configurações"
               content={<UpdateUser />}
               Icon={Settings2}
