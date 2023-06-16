@@ -15,11 +15,7 @@ import { storageTheme } from "@/lib/storageTheme";
 import { cn } from "@/lib/utils";
 import { Switch } from "./ui/switch";
 
-type Props = {
-  isFixed?: boolean;
-};
-
-function Header({ isFixed }: Props) {
+function Header() {
   const [darkMode, setDarkMode] = useState(false);
   const [headerBlur, setHeaderBlur] = useState(false);
   const sunAnim = useAnimation();
@@ -49,8 +45,7 @@ function Header({ isFixed }: Props) {
   return (
     <header
       className={cn(
-        "flex w-full justify-between items-center z-10 px-5 py-2",
-        isFixed ? "fixed" : "static",
+        "fixed flex w-full justify-between items-center z-10 px-5 py-2",
         headerBlur &&
           "backdrop-saturate-150 backdrop-blur-md duration-500 dark:shadow-slate-800 ease-in-out shadow-sm"
       )}

@@ -82,7 +82,7 @@ function UpdateUser() {
     } else {
       toast({
         title: "Não conseguimos armazenar a sua foto.",
-        description: "Teste novamente.",
+        description: "Tente novamente.",
         variant: "destructive",
       });
     }
@@ -93,7 +93,7 @@ function UpdateUser() {
     if (error) {
       toast({
         title: "Não foi possível sair.",
-        description: "Teste novamente.",
+        description: "Tente novamente.",
         variant: "destructive",
       });
     }
@@ -102,7 +102,10 @@ function UpdateUser() {
   const onSubmit: SubmitHandler<UpdateUserData> = async (data) => {
     setLoading(true);
     await storageImage(data);
-    const { error } = await supabase.auth.updateUser({
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.updateUser({
       data: {
         userName: data.userName,
         description: data.description,
@@ -113,11 +116,11 @@ function UpdateUser() {
       toast({
         title: "Dados Atualizados",
       });
-      router.refresh();
+      router.push(`/profile/${user?.id}`);
     } else {
       toast({
         title: "Algo deu errado!",
-        description: "Teste novamente.",
+        description: "Tente novamente.",
         variant: "destructive",
       });
     }
@@ -125,9 +128,6 @@ function UpdateUser() {
     setLoading(false);
   };
 
-  const teste = () => {
-    console.log("teste");
-  };
   return (
     <>
       <form

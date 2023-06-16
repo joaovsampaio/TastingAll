@@ -13,6 +13,8 @@ import IngredientsInput from "./IngredientsInput";
 import { Button } from "../../ui/button";
 import { Input, InputText, Label, Textarea } from "../../ui/formUIComps";
 import { useToast } from "@/lib/use-toast";
+import { useRouter } from "next/navigation";
+import { useProfile } from "@/lib/store";
 
 // Supabase Rules
 const MB_BYTES = 5242880;
@@ -46,7 +48,7 @@ export const schema = z.object({
       (file) => ACCEPTED_MIME_TYPES.includes(file[0]?.type),
       "Apenas os formatos .jpg, .jpeg, .png e .webp são suportados."
     ),
-  created_by: z.string(),
+  user_id: z.string(),
 });
 export type FormData = z.infer<typeof schema>;
 
@@ -61,15 +63,11 @@ function FormRecipe() {
 
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const { profile } = useProfile();
+  const router = useRouter();
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data: user, error } = await supabase.auth.getUser();
-
-      if (!error) return setValue("created_by", user.user!.id);
-    };
-
-    getUser();
+    setValue("user_id", profile!.id);
   }, [setValue]);
 
   const postRecipe = async (recipe: any) => {
@@ -96,6 +94,7 @@ function FormRecipe() {
         title: data.title,
         description: `${data.title} criado com sucesso.`,
       });
+      router.push(`/recipe/${data.id}`);
     } catch {
       toast({
         title: "Ops, algo deu errado!",

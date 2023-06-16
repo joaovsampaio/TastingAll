@@ -46,12 +46,14 @@ async function FeedRecipes() {
     <>
       {recipes.map((item) => (
         <TastingAllCard
-          profileImage={getUserImage(item.created_by as string)}
-          userName={getUserName(item.created_by)}
+          profileImage={getUserImage(item.user_id as string)}
+          userName={getUserName(item.user_id)}
           recipeTitle={item.title}
           category={item.category}
           date={formatDate(item.created_at as string)}
           recipeImage={getRecipeImage(item.image)}
+          recipeId={item.id}
+          userId={item.user_id}
           key={item.id}
         />
       ))}

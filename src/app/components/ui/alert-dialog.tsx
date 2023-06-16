@@ -160,7 +160,10 @@ const CustomAlertDialog = ({
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancelar</AlertDialogCancel>
-          <AlertDialogAction onClick={onActionClick}>
+          <AlertDialogAction
+            className="bg-destructive text-foreground hover:bg-destructive/50"
+            onClick={onActionClick}
+          >
             Continuar
           </AlertDialogAction>
         </AlertDialogFooter>

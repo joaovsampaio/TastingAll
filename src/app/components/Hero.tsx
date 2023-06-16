@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Balancer } from "react-wrap-balancer";
 
 import { Separator } from "./ui/separator";
-import UserCard from "./UserCard";
+import { HeroUserCard } from "./UserCard";
 
 const inter = Inter({ subsets: ["latin"], weight: "900" });
 
@@ -126,7 +126,7 @@ function Hero() {
             </Balancer>
           </h3>
 
-          <UserCard />
+          <HeroUserCard />
         </motion.div>
       </motion.div>
     </div>
