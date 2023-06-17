@@ -49,7 +49,7 @@ async function FeedRecipes() {
   return (
     <>
       {recipes.map((item) => (
-        <article className="flex flex-col items-center w-full">
+        <article key={item.id} className="flex flex-col items-center w-full">
           <Link
             className="flex flex-col items-center w-full hover:opacity-90"
             href={`/recipe/${item.id}`}
