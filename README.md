@@ -16,7 +16,7 @@ O TastingAll é uma rede social de culinária. A idéia principal do site é que
 
 ## Site
 
-Link - [TastingAll](https://tastingall-web.vercel.app/)
+Link - [TastingAll](https://tasting-all.vercel.app/)
 
 ## Imagens :arrow_down:
 
