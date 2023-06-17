@@ -1,4 +1,4 @@
-# PopRating :star:
+# TastingAll :cook: :woman_cook:
 
 O TastingAll é uma rede social de culinária. A idéia principal do site é que os usuários criem e compartilhem receitas.
 
