@@ -57,7 +57,7 @@ function TastingAllCard({ ...props }: Props) {
   };
 
   return (
-    <Card className="overflow-hidden w-[400px] max-md:w-11/12 ">
+    <Card className="overflow-hidden w-[400px] max-md:w-11/12">
       <CardHeader>
         <div className="flex items-center gap-3">
           <Avatar>

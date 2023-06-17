@@ -20,9 +20,9 @@ Link - [TastingAll](https://tastingall-web.vercel.app/)
 
 ## Imagens :arrow_down:
 
-![Imagem TastingAll 1](./public/git/git_home.jpg)
+![Imagem TastingAll 1](./public/git/git-hero.jpg)
 
-![Imagem TastingAll 2](./public/git/git_reviews.jpg)
+![Imagem TastingAll 2](./public/git/git-recipe.jpg)
 
 ## Utilização Do Repositório:
 

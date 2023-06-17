@@ -49,8 +49,11 @@ async function FeedRecipes() {
   return (
     <>
       {recipes.map((item) => (
-        <article>
-          <Link className="hover:opacity-90" href={`/recipe/${item.id}`}>
+        <article className="flex flex-col items-center w-full">
+          <Link
+            className="flex flex-col items-center w-full hover:opacity-90"
+            href={`/recipe/${item.id}`}
+          >
             <TastingAllCard
               profileImage={getUserImage(item.user_id as string)}
               userName={getUserName(item.user_id)}
