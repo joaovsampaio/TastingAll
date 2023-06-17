@@ -1,20 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { v4 as uuidv4 } from "uuid";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2 } from "lucide-react";
 import { z } from "zod";
-import { supabase } from "@/lib/supabaseClient";
 
+import { supabase } from "@/lib/supabaseClient";
+import { useToast } from "@/lib/use-toast";
+import { useProfile } from "@/lib/store";
 import SelectCategory from "./SelectCategory";
 import IngredientsInput from "./IngredientsInput";
 import { Button } from "../../ui/button";
 import { Input, InputText, Label, Textarea } from "../../ui/formUIComps";
-import { useToast } from "@/lib/use-toast";
-import { useRouter } from "next/navigation";
-import { useProfile } from "@/lib/store";
 
 // Supabase Rules
 const MB_BYTES = 5242880;
@@ -25,7 +25,7 @@ const ACCEPTED_MIME_TYPES = [
   "image/webp",
 ];
 export const schema = z.object({
-  id: z.string().default(uuidv4()),
+  id: z.string(),
   title: z
     .string()
     .min(1, { message: "É necessário um título." })
@@ -68,6 +68,7 @@ function FormRecipe() {
 
   useEffect(() => {
     setValue("user_id", profile!.id);
+    setValue("id", uuidv4());
   }, [setValue]);
 
   const postRecipe = async (recipe: any) => {

@@ -1,12 +1,16 @@
+import Link from "next/link";
+
 import { supabase } from "@/lib/supabaseClient";
 import { formatDate } from "@/lib/utils";
-
 import TastingAllCard from "./TastingAllCard";
 
 export const revalidate = 3600;
 
 async function getRecipes() {
-  const { data, error } = await supabase.from("recipes").select("*");
+  const { data, error } = await supabase
+    .from("recipes")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
     throw new Error();
@@ -45,17 +49,21 @@ async function FeedRecipes() {
   return (
     <>
       {recipes.map((item) => (
-        <TastingAllCard
-          profileImage={getUserImage(item.user_id as string)}
-          userName={getUserName(item.user_id)}
-          recipeTitle={item.title}
-          category={item.category}
-          date={formatDate(item.created_at as string)}
-          recipeImage={getRecipeImage(item.image)}
-          recipeId={item.id}
-          userId={item.user_id}
-          key={item.id}
-        />
+        <article>
+          <Link className="hover:opacity-90" href={`/recipe/${item.id}`}>
+            <TastingAllCard
+              profileImage={getUserImage(item.user_id as string)}
+              userName={getUserName(item.user_id)}
+              recipeTitle={item.title}
+              category={item.category}
+              date={formatDate(item.created_at as string)}
+              recipeImage={getRecipeImage(item.image)}
+              recipeId={item.id}
+              userId={item.user_id}
+              key={item.id}
+            />
+          </Link>
+        </article>
       ))}
     </>
   );

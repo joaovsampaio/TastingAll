@@ -1,5 +1,5 @@
-import { User } from "@supabase/supabase-js";
 import { create } from "zustand";
+import { User } from "@supabase/supabase-js";
 
 type ProfileState = {
   profile: User | undefined;

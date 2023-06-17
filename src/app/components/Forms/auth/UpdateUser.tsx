@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Loader2, LogOut } from "lucide-react";
 
 import { supabase } from "@/lib/supabaseClient";
+import { useToast } from "@/lib/use-toast";
 import { Input, InputText, Label, Textarea } from "../../ui/formUIComps";
 import { Button } from "../../ui/button";
-import { useToast } from "@/lib/use-toast";
-import { useRouter } from "next/navigation";
 import { CustomAlertDialog } from "../../ui/alert-dialog";
 
 // Supabase Rules

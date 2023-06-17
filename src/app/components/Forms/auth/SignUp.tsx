@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Loader2 } from "lucide-react";
 
 import { supabase } from "@/lib/supabaseClient";
+import { useToast } from "@/lib/use-toast";
 import { Input, InputText, Label } from "../../ui/formUIComps";
 import { Button } from "../../ui/button";
-import { useToast } from "@/lib/use-toast";
-import { useRouter } from "next/navigation";
 
 const signUpSchema = z
   .object({
@@ -32,13 +32,6 @@ const signUpSchema = z
     message: "A senha não combina.",
     path: ["confirmPassword"],
   });
-
-/*date: z.string().default(
-    Intl.DateTimeFormat("pt-BR", {
-      dateStyle: "short",
-      timeStyle: "short",
-    }).format(new Date())
-  ),*/
 
 type SignUpData = z.infer<typeof signUpSchema>;
 
@@ -75,7 +68,7 @@ function SignUp() {
     } else {
       toast({
         title: "Algo deu errado!",
-        description: "Teste novamente.",
+        description: "Tente novamente.",
         variant: "destructive",
       });
     }

@@ -120,12 +120,6 @@ function Hero() {
           initial="hidden"
           animate="visible"
         >
-          <h3 className="max-sm:text-base">
-            <Balancer>
-              Aqui você compartilha suas receitas e descobre novos sabores.
-            </Balancer>
-          </h3>
-
           <HeroUserCard />
         </motion.div>
       </motion.div>

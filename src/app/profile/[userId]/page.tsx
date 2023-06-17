@@ -2,6 +2,7 @@ import { supabase } from "@/lib/supabaseClient";
 import { formatDate } from "@/lib/utils";
 import TastingAllCard from "../../components/TastingAllCard";
 import { UserCard } from "@/app/components/UserCard";
+import { BookPlus, Frown, Smile } from "lucide-react";
 
 export const revalidate = 3600;
 
@@ -61,6 +62,19 @@ async function Profile({ params }: { params: { userId: string } }) {
             userId={params.userId}
           />
         </div>
+        {recipes.length === 0 && (
+          <div className="px-2 text-lg text-center">
+            <p>
+              Parece que voce ainda não tem nenhuma receita{" "}
+              <Frown className="inline text-primary" />.
+            </p>
+            <p>
+              Clique no ícone <BookPlus className="inline text-primary" /> e
+              crie a sua primeira receita{" "}
+              <Smile className="inline text-primary" />.
+            </p>
+          </div>
+        )}
         {recipes.map((item) => (
           <TastingAllCard
             profileImage={getUserImage(item.user_id as string)}

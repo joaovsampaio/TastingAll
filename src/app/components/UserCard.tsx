@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { BookPlus, Settings2, UserSquare } from "lucide-react";
 
@@ -19,6 +18,7 @@ import UpdateUser from "./Forms/auth/UpdateUser";
 import { supabase } from "@/lib/supabaseClient";
 import { useProfile } from "@/lib/store";
 import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 type UserCardProps = {
   profileImage: string | undefined;
@@ -35,18 +35,10 @@ export function UserCard({ ...props }: UserCardProps) {
     <Card className="w-[400px] max-sm:w-11/12">
       <CardHeader>
         <div className="flex items-center gap-3">
-          <Image
-            alt={props.userName}
-            src={
-              props.profileImage === undefined
-                ? "/../public/blank-profile-picture.png"
-                : props.profileImage
-            }
-            width={50}
-            height={50}
-            className="rounded-full w-12 h-12"
-            key={props.profileImage}
-          />
+          <Avatar>
+            <AvatarImage src={props.profileImage} alt={props.userName} />
+            <AvatarFallback>{props.userName.slice(0, 2)}</AvatarFallback>
+          </Avatar>
           <CardTitle className="overflow-hidden">{props.userName}</CardTitle>
         </div>
         <CardDescription

@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { Loader2 } from "lucide-react";
 
-import { supabase } from "@/lib/supabaseClient";
 import { Input, InputText, Label } from "../../ui/formUIComps";
 import { Button } from "../../ui/button";
+import { supabase } from "@/lib/supabaseClient";
 import { useToast } from "@/lib/use-toast";
-import { useRouter } from "next/navigation";
 
 const signInSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -42,7 +42,7 @@ function SignIn() {
     } else {
       toast({
         title: "Algo deu errado!",
-        description: "Teste novamente.",
+        description: "Tente novamente.",
         variant: "destructive",
       });
     }

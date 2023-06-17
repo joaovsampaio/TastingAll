@@ -1,7 +1,7 @@
+import Image from "next/image";
 import { Inter } from "next/font/google";
 import { supabase } from "@/lib/supabaseClient";
 import { formatDate } from "@/lib/utils";
-import Image from "next/image";
 import { Separator } from "@/app/components/ui/separator";
 import { Badge } from "@/app/components/ui/badge";
 

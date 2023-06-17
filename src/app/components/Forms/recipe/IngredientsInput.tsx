@@ -1,12 +1,13 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { FieldError, UseFormSetValue } from "react-hook-form";
+import { XCircle } from "lucide-react";
+
 import { Input, InputText, Label } from "../../ui/formUIComps";
 import { FormData, schema } from "./FormRecipe";
 import { Button } from "../../ui/button";
-import { useEffect, useState } from "react";
-import { XCircle } from "lucide-react";
-import { AnimatePresence, motion } from "framer-motion";
 
 type Props = {
   errors: FieldError | undefined;

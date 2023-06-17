@@ -1,8 +1,7 @@
 "use client";
+
 import { AlertTriangle } from "lucide-react";
 import { Button } from "../components/ui/button";
-
-// Error components must be Client Components
 
 export default function Error({
   error,
