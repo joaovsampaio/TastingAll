@@ -52,14 +52,14 @@ function Header() {
     >
       <Link href="/" className="flex items-center gap-1">
         <Image
-          src="/../public/logo.png"
+          src="/logo.png"
           alt="TastingAll"
           width="50"
           height="50"
           className="lg:hidden"
         />
         <Image
-          src="/../public/logo-name.png"
+          src="/logo-name.png"
           alt="TastingAll"
           width="200"
           height="200"

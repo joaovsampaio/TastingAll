@@ -97,7 +97,7 @@ function Hero() {
               Descubra, compartilhe e saboreie um mundo de sabores no
               <Image
                 alt="underline"
-                src="/../public/logo-underline.png"
+                src="/logo-underline.png"
                 width={200}
                 height={200}
                 aria-hidden
