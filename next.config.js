@@ -1,7 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["picsum.photos", "wsxgrmtiuprnsabpslkk.supabase.co"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "picsum.photos",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "wsxgrmtiuprnsabpslkk.supabase.co",
+        pathname: "**",
+      },
+    ],
   },
 };
 

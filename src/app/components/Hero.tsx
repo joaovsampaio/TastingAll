@@ -69,7 +69,7 @@ function Hero() {
           >
             <Image
               alt="TastingAll"
-              src="/../public/logo-name.png"
+              src="/logo-name.png"
               width="500"
               height="500"
             />
